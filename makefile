@@ -33,10 +33,11 @@ lint-fix: $(SRC_DIR)/node_modules ## 📜 Lint & format, will try to fix errors 
 # 	--tag $(IMAGE_REG)/$(IMAGE_REPO):$(IMAGE_TAG)
 
 image: ## 🔨 Build container image from Containerfile 
-	podman build --security-opt seccomp=unconfined . \
-        --file build/Containerfile \
+	podman build --security-opt seccomp=unconfined \
+    	--security-opt label=disable \
         --platform=linux/amd64 \
-	--tag $(IMAGE_REG)/$(IMAGE_REPO):$(IMAGE_TAG)	
+		--tag $(IMAGE_REG)/$(IMAGE_REPO):$(IMAGE_TAG) \
+		--file build/Containerfile .	
 
 push: ## 📤 Push container image to registry 
 	docker push $(IMAGE_REG)/$(IMAGE_REPO):$(IMAGE_TAG)
