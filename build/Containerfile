@@ -1,6 +1,6 @@
 ARG NODEJS_VERSION=20
 
-FROM registry.redhat.io/ubi9/nodejs-$NODEJS_VERSION
+FROM registry.access.redhat.com/ubi9/nodejs-$NODEJS_VERSION
 LABEL Name="Node.js Demo App" Version=4.9.9
 ENV NODE_ENV production
 WORKDIR /app 
