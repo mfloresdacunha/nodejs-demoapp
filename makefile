@@ -28,9 +28,14 @@ lint: $(SRC_DIR)/node_modules ## 🔎 Lint & format, will not fix but sets exit 
 lint-fix: $(SRC_DIR)/node_modules ## 📜 Lint & format, will try to fix errors and modify code
 	cd $(SRC_DIR); npm run lint-fix
 
-image: ## 🔨 Build container image from Dockerfile 
-	docker build . --file build/Dockerfile \
-	--tag $(IMAGE_REG)/$(IMAGE_REPO):$(IMAGE_TAG)
+# image: ## 🔨 Build container image from Dockerfile 
+# 	docker build . --file build/Dockerfile \
+# 	--tag $(IMAGE_REG)/$(IMAGE_REPO):$(IMAGE_TAG)
+
+image: ## 🔨 Build container image from Containerfile 
+	podman build . --file build/Containerfile \
+	--platform=linux/amd64 \
+	--tag $(IMAGE_REG)/$(IMAGE_REPO):$(IMAGE_TAG)	
 
 push: ## 📤 Push container image to registry 
 	docker push $(IMAGE_REG)/$(IMAGE_REPO):$(IMAGE_TAG)
