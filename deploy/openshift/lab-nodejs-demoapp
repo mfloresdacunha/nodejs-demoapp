@@ -1,0 +1,53 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lab-nodejs-demoapp
+  labels:
+    app: lab-nodejs-demoapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lab-nodejs-demoapp
+  template:
+    metadata:
+      labels:
+        app: lab-nodejs-demoapp
+    spec:
+      containers:
+      - name: demoapp
+        image: ghcr.io/benc-uk/nodejs-demoapp:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: NODE_ENV
+          value: "production"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: lab-nodejs-demoapp-service
+spec:
+  selector:
+    app: lab-nodejs-demoapp
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: lab-nodejs-demoapp-route
+spec:
+  # O OpenShift gera o host automaticamente se deixado em branco
+  # ex: lab-nodejs-demoapp-route-project.apps.cluster.com
+  to:
+    kind: Service
+    name: lab-nodejs-demoapp-service
+  port:
+    targetPort: 3000
+  tls:
+    termination: edge
+
