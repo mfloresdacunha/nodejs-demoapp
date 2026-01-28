@@ -1,9 +1,7 @@
-ARG ARCH=
-ARG IMAGE_BASE=20-alpine
+ARG NODEJS_VERSION=20
 
-FROM ${ARCH}node:$IMAGE_BASE
+FROM registry.redhat.io/ubi9/nodejs-$NODEJS_VERSION
 LABEL Name="Node.js Demo App" Version=4.9.9
-LABEL org.opencontainers.image.source = "https://github.com/benc-uk/nodejs-demoapp"
 ENV NODE_ENV production
 WORKDIR /app 
 
